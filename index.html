@@ -1,0 +1,108 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">	
+	<title>The Game of Life</title>
+	<link rel="stylesheet" href="life.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="excanvas.min.js"></script>
+	<![endif]-->
+	<script src="life.js"></script>
+</head>
+
+<body>
+
+<hgroup>
+	<h1>Conway's Game of Life</h1>
+	<h2>In &lt;canvas&gt;</h2>
+</hgroup>
+
+<div class="left">
+	<canvas id="table-container"></canvas>
+	<div>
+		<input id="btn-stop-go" type="button" value="Go" />
+		<input id="btn-clear" type="button" value="Clear" />
+		<span id="generation"></span>
+	</div>	
+</div>
+
+<div class="right">
+	<p>
+		I figured a good learning exercise for checking out &lt;canvas&gt; would be to 
+		implement a small example of <a href="http://www.math.com/students/wonders/life/life.html">Conway's Game of Life</a> 
+		using the canvas for drawing. Here's the result.
+	</p>
+	<p>
+		This implementation has a small twist, where as a particular cell stays alive through generations (i.e., as it ages), 
+		the shade of the cell gets darker until it turns black.		
+	</p>
+	<p>
+		Start out by clicking grid cells
+		to create an initial pattern, or use of the sample patterns below. Once the initial pattern is set,
+		click 'Go' to start the game.
+	</p>
+	<p>Some initial patterns to try:<p>
+	<ul>
+		<li><a class="state" href="#stillLives">Still lives</a> - Nothing generated, nothing dying</li>
+		<li><a class="state" href="#basicOscillators">Basic 2-period oscillators</a></li>
+		<li><a class="state" href="#pulsar">Pulsar</a> - 3-period oscillator</li>		
+		<li><a class="state" href="#pulsarGen">Pulsar generator</a> - Eventually generates a pulsar</li>
+		<li><a class="state" href="#rPent"> R-pentomino</a> - Lots of complexity from 5  initial cells. Eventually stabilizes arounf gen 250</li>
+		<li><a class="state" href="#pd">Pentadecathlon</a> - A 15-period oscillator</li>
+		<li><a class="state" href="#queenBee">Queen Bee Shuttle</a> - 30-period oscillator where a queen bee travels between two blocks.</li>
+		<li><a class="state" href="#lwss">2 Lightweight space ships</a> - The bottom one turns into a glider when it reaches the edge</li>
+		<li><a class="state" href="#flower">Flower of Eden</a> - Dissolves into nothing, but pretty</li>
+	</ul>
+</div>
+
+<script>
+
+$(function() {
+
+	// Initial game parameters
+	var cellSize = 16;
+	var w = 25;
+	var h = 25;
+		
+	// Holds on to all the game state
+	var game = Game('#table-container', w, h, cellSize);
+
+	// Go/Pause button
+	$('#btn-stop-go').click(function() { 
+		if (game.isRunning()) {
+			game.stop();
+			$(this).val('Go');
+			$('#btn-clear').attr('disabled', '');			
+		} else {
+			$(this).val('Pause');
+			$('#btn-clear').attr('disabled', 'disabled');			
+			game.run();
+		}
+	});	
+	
+	// Clear button
+	$('#btn-clear').click(function() {
+		game.stop();
+		game.clear();
+	});
+
+	// Examples links
+	$('a.state').click(function(e) {
+		e.preventDefault();
+		if (game.isRunning()) {
+			return;
+		}
+		var stateName = $(this).attr('href').substring(1);
+		game.setState(examples[stateName]);		
+	});
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+/* Game of Life CSS */
+
+html {
+	text-align: center;
+}
+body {
+	text-align: left;
+	font-family: Arial;
+	width: 960px;
+	margin: auto;
+}
+h1 {
+	margin-bottom: 0px;
+}
+h2 {
+	margin-top: 0px;
+	font-size: 16px;
+}
+div.left {
+	float: left;
+	width: 460px;
+}
+div.right {
+	width: 500px;
+	float: right;
+}
+p {
+	margin-top: 0;
+	font-size: 14px;
+	line-height: 20px;
+}
+input[type="button"] {
+	width: 80px;
+	height: 30px;
+}
